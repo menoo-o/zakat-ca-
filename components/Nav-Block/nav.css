@@ -1,113 +1,141 @@
-.nav-header {
-  position: fixed;
+/* components/nav.css */
+
+.nav {
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  z-index: 50;
-  height: 64px;
-  background-color: #141313;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 100;
+  height: var(--nav-h);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
-}
-
-.nav-inner {
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
   padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  gap: 0;
 }
 
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-}
-
-.logo-link {
-  text-decoration: none;
-}
-
-.nav-logo {
-  font-size: 20px;
-  font-weight: 700;
-  color: #e5e2e1;
-  letter-spacing: -0.01em;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.nav-link {
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  padding-bottom: 4px;
-}
-
-/* Dynamic States */
-.nav-link.active {
-  font-weight: 700;
-  color: #c8c6c5;
-  border-bottom: 2px solid #c8c6c5;
-}
-
-.nav-link.idle {
-  font-weight: 500;
-  color: #7c7d7e;
-  border-bottom: 2px solid transparent;
-}
-
-.nav-link.idle:hover {
-  color: #e5e2e1;
-}
-
-.nav-right {
+.navLogo {
   display: flex;
   align-items: center;
   gap: 8px;
+  text-decoration: none;
+  margin-right: 40px;
 }
 
-.nav-icon-btn {
+.navLogoMark {
+  width: 28px;
+  height: 28px;
+  background: var(--gold);
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: none;
-  border: none;
-  border-radius: 8px;
-  color: #7c7d7e;
-  cursor: pointer;
-  font-family: "Material Symbols Outlined", sans-serif;
-  font-size: 20px;
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  flex-shrink: 0;
 }
 
-.nav-btn {
-  padding: 6px 16px;
-  border-radius: 6px;
+.navLogoText {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+}
+
+.navLink {
+  padding: 6px 14px;
   font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
+  font-weight: 500;
+  color: var(--text3);
+  text-decoration: none;
+  border-radius: var(--radius);
+  font-family: var(--font);
+  transition: color 0.15s, background 0.15s;
+  position: relative;
+  letter-spacing: 0.3px;
+}
+
+.navLink:hover {
+  color: var(--text);
+  background: var(--bg3);
+}
+
+.navLinkActive {
+  color: var(--text);
+}
+
+.navLinkActive::after {
+  content: '';
+  position: absolute;
+  bottom: -13px;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 1px;
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navGiveBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  background: var(--gold);
+  color: #000;
   border: none;
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  letter-spacing: 0.2px;
 }
 
-.nav-btn-secondary {
-  background: #2b2a2a;
-  color: #e5e2e1;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.navGiveBtn:hover {
+  background: var(--gold2);
+  transform: translateY(-1px);
 }
 
-.nav-btn-primary {
-  background: #e5e2e1;
-  color: #141313;
+.navGiveBtn:active { transform: translateY(0); }
+
+.navIconBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text2);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.navIconBtn:hover {
+  background: var(--bg4);
+  color: var(--text);
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .nav { padding: 0 16px; }
+  .navLogoText { display: none; }
+  .navLinks { gap: 0; }
+  .navLink { padding: 6px 10px; font-size: 11px; }
 }

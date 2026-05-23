@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import s from "./zakat.module.css"
+import s from "./zakat.module.css";
 
 import type { MarketSnapshot } from "@/lib/getMarketData";
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -42,11 +42,13 @@ const CURRENCY_LABELS: Record<Currency, string> = {
   SAR: "SAR - Saudi Riyal",
   AED: "AED - UAE Dirham",
   EUR: "EUR - Euro",
+  // JPY MISSING
   PKR: "PKR - Pakistani Rupee",
 };
 
 const CURRENCY_SYMBOLS: Record<Currency, string> = {
-  USD: "$", GBP: "£", SAR: "﷼", AED: "د.إ", EUR: "€", PKR: "₨",
+  USD: "$", GBP: "£", SAR: "﷼", AED: "د.إ", EUR: "€", PKR: "₨", 
+  // JPY MISSING
 };
 
 const GOLD_NISAB_GRAMS   = 87.48;

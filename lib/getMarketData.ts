@@ -25,6 +25,8 @@ export interface MetalsApiResponse {
     EUR: number;
     SAR: number;
     USD: number;
+    JPY: number;
+
     [key: string]: number;
   };
   timestamps: {
@@ -33,7 +35,7 @@ export interface MetalsApiResponse {
   };
 }
 
-export type Currency = "USD" | "PKR" | "GBP" | "EUR" | "SAR" | "AED";
+export type Currency = "USD" | "PKR" | "GBP" | "EUR" | "JPY" | "SAR" | "AED";
 
 
 export interface MarketSnapshot {
@@ -64,6 +66,7 @@ export function parseMarketData(data: MetalsApiResponse): MarketSnapshot {
       EUR: data.currencies.EUR,
       SAR: data.currencies.SAR,
       AED: data.currencies.AED,
+      JPY: data.currencies.JPY,
     },
     metalTimestamp: data.timestamps.metal,
     currencyTimestamp: data.timestamps.currency,
@@ -85,7 +88,7 @@ export async function getMarketData(): Promise<MarketSnapshot | null> {
 
     // 3. Fetch from external API
     const response = await fetch(
-      "https://api.metals.dev/v1/latest?api_key=18WGQCAOAVT6DMMAMFII467MAMFII&currency=USD&unit=g"
+      `https://api.metals.dev/v1/latest?api_key=${process.env.METALS_API_KEY}&currency=USD&unit=g`
     );
 
     if (!response.ok) {

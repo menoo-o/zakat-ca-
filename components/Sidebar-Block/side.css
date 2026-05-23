@@ -1,0 +1,77 @@
+/* components/sidebar-nav.css */
+
+.sideNav {
+  width: 180px;
+  flex-shrink: 0;
+  padding: 24px 0;
+}
+
+.sideNavSection {
+  margin-bottom: 8px;
+}
+
+.sideNavHeading {
+  padding: 0 16px 8px;
+}
+
+.sideNavTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  display: block;
+  letter-spacing: -0.2px;
+}
+
+.sideNavSubtitle {
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.sideNavLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 8px;
+  margin-top: 16px;
+}
+
+.sideNavLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text3);
+  text-decoration: none;
+  font-family: var(--font);
+  transition: background 0.15s, color 0.15s;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.sideNavLink:hover {
+  background: var(--bg3);
+  color: var(--text2);
+}
+
+.sideNavLinkActive {
+  background: var(--bg3);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.sideNavLinkIcon {
+  font-size: 16px !important;
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .sideNav { display: none; }
+}

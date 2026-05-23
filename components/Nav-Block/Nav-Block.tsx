@@ -1,42 +1,43 @@
 "use client";
-
-import Link from "next/link";
+// components/Nav.tsx
+// Uses global CSS classes from nav.css (imported in app/page.tsx)
+import Link from 'next/link';
 import './nav.css'
-import { usePathname } from 'next/navigation'
 
-export default function Navbar() {
-    const pathname = usePathname();
+export default function Nav() {
   return (
-    <header className="nav-header">
-     <div className="nav-inner">
-        {/* ── Left ── */}
-        <div className="nav-left">
-          <Link href="/" className="logo-link">
-            <span className="nav-logo">ZakatPro</span>
-          </Link>
-          
-          <nav className="nav-links">
-            <Link 
-              href="/metalrates" 
-              className={`nav-link ${pathname === '/metalrates' ? 'active' : 'idle'}`}
-            >
-              Metals Rates
-            </Link>
-          </nav>
-        </div>
+    <nav className="nav">
+      <Link href="/" className="navLogo">
+        <div className="navLogoMark">Z</div>
+        <span className="navLogoText">ZakatCalc</span>
+      </Link>
 
-        {/* ── Right ── */}
-        <div className="nav-right">
-          <button className="nav-icon-btn" aria-label="Notifications">
-            notifications
-          </button>
-          <button className="nav-icon-btn" aria-label="Settings">
-            settings
-          </button>
-          <button className="nav-btn nav-btn-secondary">Support</button>
-          <button className="nav-btn nav-btn-primary">Account</button>
-        </div>
+      <div className="navLinks">
+        <Link href="/" className="navLink navLinkActive">
+          Calculator
+        </Link>
+        <Link href="/history" className="navLink">
+          History
+        </Link>
+        <Link href="/charity" className="navLink">
+          Charity
+        </Link>
       </div>
-    </header>
+
+      <div className="navRight">
+        <button className="navGiveBtn">
+          <span
+            className="material-symbols-outlined"
+            style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}
+          >
+            volunteer_activism
+          </span>
+          Give Zakat
+        </button>
+        <button className="navIconBtn" aria-label="Account">
+          <span className="material-symbols-outlined" style={{ fontSize: 18 }}>account_circle</span>
+        </button>
+      </div>
+    </nav>
   );
 }
