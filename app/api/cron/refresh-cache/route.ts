@@ -36,6 +36,5 @@ async function handler() {
 }
 
 // This wrapper does all the signature verification for you
-// export const POST = verifySignatureAppRouter(handler);
+export const POST = verifySignatureAppRouter(handler);
 
-export const POST = handler;
