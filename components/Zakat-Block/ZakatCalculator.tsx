@@ -163,7 +163,9 @@ function SidebarSummary({
             <>
               <span className={s.zakatLabel}>Zakat Amount Due (2.5%)</span>
               <div className={s.zakatAmountRow}>
-                <span className={s.zakatAmount}>{symbol}{fmt(calc!.zakatDue)}</span>
+              <span className={s.zakatAmount}>
+  {symbol}{'\u00A0'}{fmt(calc!.zakatDue)}
+</span>
                 <span className={s.zakatCurrency}>{currency}</span>
               </div>
             </>
@@ -264,7 +266,7 @@ export default function ZakatCalculator() {
               {market ? (
                 <>
                   <span className={`material-symbols-outlined ${s.setupTimestampIcon}`}>sync</span>
-                  Live Rates Updated: {new Date(market.metalTimestamp).toLocaleTimeString()}
+                  Updated Last: {new Date(market.metalTimestamp).toLocaleTimeString()}
                 </>
               ) : (
                 <Skeleton width="180px" height="14px" />

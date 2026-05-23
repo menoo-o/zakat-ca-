@@ -1,9 +1,9 @@
 /* components/sidebar-nav.css */
 
 .sideNav {
-  width: 180px;
+  width: 220px;
   flex-shrink: 0;
-  padding: 24px 0;
+  padding: 24px 16px;
 }
 
 .sideNavSection {

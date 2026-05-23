@@ -13,15 +13,7 @@ export default function Nav() {
       </Link>
 
       <div className="navLinks">
-        <Link href="/" className="navLink navLinkActive">
-          Calculator
-        </Link>
-        <Link href="/history" className="navLink">
-          History
-        </Link>
-        <Link href="/charity" className="navLink">
-          Charity
-        </Link>
+       {/* will add later if needed  */}
       </div>
 
       <div className="navRight">

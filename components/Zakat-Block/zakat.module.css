@@ -340,7 +340,10 @@
   align-items: flex-end;
   gap: 8px;
 }
-
+/* 
+.zakatAmountSymbol{
+  gap: 12px;
+} */
 .zakatAmount {
   color: #141313;
   font-size: 48px;

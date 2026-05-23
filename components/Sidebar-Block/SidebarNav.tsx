@@ -21,7 +21,7 @@ export default function SidebarNav() {
             </span>
             Wealth Details
           </Link>
-          <Link href="/guidelines" className="sideNavLink">
+          <Link href="https://www.islamic-relief.org.uk/giving/islamic-giving/zakat/zakat-rules" target='_blank' className="sideNavLink">
             <span className="material-symbols-outlined sideNavLinkIcon">menu_book</span>
             Guidelines
           </Link>

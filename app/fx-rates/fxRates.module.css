@@ -1,0 +1,386 @@
+/* ─── Shimmer (matches zakat.module.css) ─────────────────────────────────── */
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Page layout ────────────────────────────────────────────────────────── */
+
+.page {
+  padding: 80px 24px 40px;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ─── Metal header cards ─────────────────────────────────────────────────── */
+
+.metalGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.metalCard {
+  background: #201f1f;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metalCardTop {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.metalPurity {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #8e9192;
+  text-transform: uppercase;
+}
+
+.metalPair {
+  font-size: 22px;
+  font-weight: 700;
+  color: #e5e2e1;
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+}
+
+.metalPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 12px 0 8px;
+  min-height: 52px;
+}
+
+.metalPriceValue {
+  font-size: 48px;
+  font-weight: 700;
+  color: #e5e2e1;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.metalPriceUnit {
+  font-size: 20px;
+  font-weight: 400;
+  color: #8e9192;
+  letter-spacing: 0.02em;
+}
+
+.metalMeta {
+  display: flex;
+  gap: 32px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 4px;
+}
+
+.metalMetaItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metalMetaLabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #5a5c5d;
+}
+
+.metalMetaValue {
+  font-size: 13px;
+  font-weight: 500;
+  color: #c8c6c5;
+  letter-spacing: 0.02em;
+}
+
+/* ─── Bottom grid ────────────────────────────────────────────────────────── */
+
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ─── Unit Comparison card ───────────────────────────────────────────────── */
+
+.unitCard {
+  background: #201f1f;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 24px 28px;
+}
+
+.unitHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.unitTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.unitIcon {
+  font-size: 20px;
+  color: #8e9192;
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+}
+
+.unitTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #e5e2e1;
+  letter-spacing: -0.01em;
+}
+
+.unitControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Metal toggle (pill-style) */
+
+.unitToggle {
+  display: flex;
+  background: #1c1b1b;
+  padding: 3px;
+  gap: 3px;
+}
+
+.unitToggleBtn {
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: transparent;
+  color: #8e9192;
+  white-space: nowrap;
+}
+
+.unitToggleBtnActive {
+  background: #474747;
+  color: #e5e2e1;
+}
+
+/* Currency select */
+
+.unitSelectWrapper {
+  position: relative;
+}
+
+.unitSelect {
+  appearance: none;
+  background: #353434;
+  border: 1px solid #444748;
+  color: #e5e2e1;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 6px 28px 6px 12px;
+  outline: none;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.unitSelectArrow {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8e9192;
+  pointer-events: none;
+  font-size: 10px;
+}
+
+/* Table */
+
+.unitTable {
+  display: flex;
+  flex-direction: column;
+}
+
+.unitTableHead {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #5a5c5d;
+}
+
+.unitTableRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.unitTableRow:last-child {
+  border-bottom: none;
+}
+
+.unitTableLabel {
+  font-size: 16px;
+  font-weight: 400;
+  color: #c8c6c5;
+}
+
+.unitTableValue {
+  font-size: 16px;
+  font-weight: 500;
+  color: #e5e2e1;
+  letter-spacing: 0.02em;
+}
+
+/* ─── Forex card ─────────────────────────────────────────────────────────── */
+
+.forexCard {
+  background: #201f1f;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 24px 24px 12px;
+}
+
+.forexCardTitle {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #5a5c5d;
+  margin-bottom: 16px;
+}
+
+.forexList {
+  display: flex;
+  flex-direction: column;
+}
+
+.forexRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.forexRow:last-child {
+  border-bottom: none;
+}
+
+.forexLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.forexFlag {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #353434;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.forexFlagCode {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #8e9192;
+  text-transform: uppercase;
+}
+
+.forexInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.forexPairLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e5e2e1;
+  letter-spacing: 0.04em;
+}
+
+.forexPairSub {
+  font-size: 10px;
+  font-weight: 500;
+  color: #5a5c5d;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.forexRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.forexRate {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e5e2e1;
+  letter-spacing: 0.02em;
+}
+
+.forexChange {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.forexChangePos {
+  color: #4caf7d;
+}
+
+.forexChangeNeg {
+  color: #e05a5a;
+}
+
+.forexChangeFlat {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #5a5c5d;
+}
+
+/* ─── Skeleton shimmer ───────────────────────────────────────────────────── */
+
+.skeleton {
+  background: linear-gradient(90deg, #2b2a2a 25%, #353434 50%, #2b2a2a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 2px;
+  display: inline-block;
+}
