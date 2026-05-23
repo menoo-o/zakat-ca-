@@ -1,0 +1,113 @@
+.nav-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: 64px;
+  background-color: #141313;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+}
+
+.nav-inner {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.logo-link {
+  text-decoration: none;
+}
+
+.nav-logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e5e2e1;
+  letter-spacing: -0.01em;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-link {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding-bottom: 4px;
+}
+
+/* Dynamic States */
+.nav-link.active {
+  font-weight: 700;
+  color: #c8c6c5;
+  border-bottom: 2px solid #c8c6c5;
+}
+
+.nav-link.idle {
+  font-weight: 500;
+  color: #7c7d7e;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-link.idle:hover {
+  color: #e5e2e1;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: #7c7d7e;
+  cursor: pointer;
+  font-family: "Material Symbols Outlined", sans-serif;
+  font-size: 20px;
+}
+
+.nav-btn {
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+}
+
+.nav-btn-secondary {
+  background: #2b2a2a;
+  color: #e5e2e1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-btn-primary {
+  background: #e5e2e1;
+  color: #141313;
+}
