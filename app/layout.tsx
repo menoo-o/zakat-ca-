@@ -1,6 +1,8 @@
 // app/layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
+import Nav from "@/components/Nav-Block/Nav-Block";
+import SidebarNav from "@/components/Sidebar-Block/SidebarNav";
 
 export const metadata: Metadata = {
   title: "ZakatCalc — Live Zakat Calculator",
@@ -18,7 +20,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+      <Nav />
+
+        <div className="pageWrapper">
+          <SidebarNav />
+
+          <main className="pageMain">
+            {children}
+          </main>
+        </div>
+        
+        </body>
     </html>
   );
 }

@@ -8,7 +8,7 @@
 /* ─── Page layout ────────────────────────────────────────────────────────── */
 
 .page {
-  padding: 80px 24px 40px;
+  padding: 30px 24px 40px;
   max-width: 1440px;
   margin: 0 auto;
   display: flex;
@@ -52,6 +52,20 @@
   color: #e5e2e1;
   letter-spacing: 0.04em;
   margin-top: 2px;
+}
+
+/* GOLD */
+.gold {
+  color: #c9a84c;
+  border-color: var(--gold);
+  background: color-mix(in srgb, var(--gold) 10%, transparent);
+}
+
+/* SILVER */
+.silver {
+  color: var(--silver);
+  border-color: var(--silver);
+  background: color-mix(in srgb, var(--silver) 10%, transparent);
 }
 
 .metalPrice {

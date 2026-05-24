@@ -5,6 +5,7 @@ import s from "./zakat.module.css";
 import { Currency } from "@/lib/definitions";
 import type { MarketSnapshot } from "@/lib/getMarketData";
 import { CURRENCY_SYMBOLS, Metal , Assets, Liabilities, CalcResult, CURRENCY_LABELS } from "@/lib/definitions";
+import { handleGiveZakat } from "@/lib/utils";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -26,6 +27,8 @@ const DEFAULT_LIABILITIES: Liabilities = {
 function Skeleton({ width = "100%", height = "20px" }: { width?: string; height?: string }) {
   return <div className={s.skeleton} style={{ width, height }} />;
 }
+
+
 
 // ─── Input Row ────────────────────────────────────────────────────────────────
 
@@ -82,7 +85,7 @@ function SidebarSummary({
   onReset:  () => void;
 }) {
   const isLoading = !calc || !market;
-
+ 
   return (
     <div className={s.sidebar}>
 
@@ -131,7 +134,7 @@ function SidebarSummary({
 
         {/* Action buttons — always visible, no market data dependency */}
         <div className={s.actionButtons}>
-          <button className={s.btnPrimary}>
+          <button className={s.btnPrimary} onClick={handleGiveZakat}>
             <span className={`material-symbols-outlined ${s.btnIconFilled}`}>volunteer_activism</span>
             Give Zakat
           </button>

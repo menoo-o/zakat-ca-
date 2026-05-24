@@ -16,6 +16,8 @@
   --text3:        #6a6a74;
   --gold:         #c9a84c;
   --gold2:        #e8c66a;
+  --silver:       #ced4da;
+  --silver2:       #495057;
   --gold-dim:     #5a4820;
   --green:        #3dba7a;
   --green-dim:    #1a3d2e;
@@ -37,6 +39,7 @@ html, body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  margin: 0;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -198,10 +201,12 @@ a.secondary {
 /* app/page.css */
 .pageWrapper {
   display: flex;
+ 
   min-height: calc(100vh - var(--nav-h));
 }
 
 .pageMain {
   flex: 1;
   min-width: 0;
+
 }

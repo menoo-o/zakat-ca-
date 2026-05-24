@@ -8,12 +8,13 @@
 /* ─── Page layout ────────────────────────────────────────────────────────── */
 
 .calculator {
-  padding: 80px 24px 40px;
+  padding: 30px 24px 40px;
   max-width: 1440px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 380px;
   gap: 24px;
+
 }
 
 .leftColumn {

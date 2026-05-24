@@ -50,8 +50,12 @@ function MetalCard({
           {metal === "gold" ? "AU 999.9" : "AG 999.0"}
         </span>
       </div>
-      <div className={s.metalPair}>
-        {metal === "gold" ? "XAU" : "XAG"} / USD
+     <div
+      className={`${s.metalPair} ${
+        metal === "gold" ? s.gold : s.silver
+      }`}
+      >
+       {metal === "gold" ? "XAU" : "XAG"} / USD
       </div>
 
       <div className={s.metalPrice}>
