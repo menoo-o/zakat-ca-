@@ -210,3 +210,15 @@ a.secondary {
   min-width: 0;
 
 }
+
+
+/* Add to globals.css */
+@media (max-width: 480px) {
+  :root {
+    --nav-h: 48px; /* nav compresses on small screens */
+  }
+
+  .pageWrapper {
+    min-height: calc(100vh - 48px);
+  }
+}

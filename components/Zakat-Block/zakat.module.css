@@ -469,3 +469,88 @@
   animation: shimmer 1.4s infinite;
   border-radius: 2px;
 }
+
+
+/* ── Tablet (max 1024px) ─────────────────────────────── */
+@media (max-width: 1024px) {
+  .calculator {
+    grid-template-columns: 1fr 300px; /* shrink sidebar */
+    gap: 16px;
+    padding: 24px 16px 40px;
+  }
+
+  .setupGrid {
+    grid-template-columns: 1fr 1fr; /* 3→2 cols */
+  }
+
+  /* Nisab takes full row */
+  .setupGrid > div:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ── Mobile (max 768px) ──────────────────────────────── */
+@media (max-width: 768px) {
+  .calculator {
+    grid-template-columns: 1fr;  /* sidebar stacks below */
+    padding: 16px 16px 48px;
+  }
+
+  .leftColumn { gap: 16px; }
+
+  .section { padding: 16px; }
+
+  .sectionTitle {
+    font-size: 18px; /* 24→18 */
+  }
+
+  .sectionTitleSpaced { margin-bottom: 16px; }
+
+  .setupGrid {
+    grid-template-columns: 1fr; /* all single column */
+    gap: 16px;
+  }
+
+  /* Input rows: stack label above input */
+  .inputRow {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .inputBox {
+    width: 100%; /* drop fixed 220px */
+  }
+
+  /* Sidebar unsticks */
+  .sidebar {
+    position: static;
+    top: unset;
+  }
+
+  .summaryCard { padding: 16px; }
+
+  .summaryLabel,
+  .summaryLabelBold { font-size: 14px; }
+
+  .zakatAmount { font-size: 36px; } /* 48→36 */
+
+  .summaryRows { gap: 12px; margin-bottom: 20px; }
+
+  .btnPrimary,
+  .btnSecondary { padding: 14px; font-size: 14px; }
+}
+
+/* ── Small mobile (max 480px) ────────────────────────── */
+@media (max-width: 480px) {
+  .calculator { padding: 12px 12px 40px; }
+
+  .sectionTitle { font-size: 16px; }
+
+  .inputRowLabel { font-size: 13px; }
+
+  .zakatAmount { font-size: 28px; }
+
+  .zakatLabel { font-size: 10px; }
+
+  .summaryCardTitle { font-size: 10px; letter-spacing: 0.15em; }
+}

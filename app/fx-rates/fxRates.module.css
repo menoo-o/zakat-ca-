@@ -398,3 +398,77 @@
   border-radius: 2px;
   display: inline-block;
 }
+
+
+/* ── Tablet (max 1024px) ─────────────────────────────── */
+@media (max-width: 1024px) {
+  .page { padding: 24px 16px 40px; }
+
+  .metalPriceValue { font-size: 36px; } /* 48→36 */
+
+  .bottomGrid {
+    grid-template-columns: 1fr 280px; /* shrink forex col */
+  }
+}
+
+/* ── Mobile (max 768px) ──────────────────────────────── */
+@media (max-width: 768px) {
+  .page { padding: 16px 16px 40px; gap: 16px; }
+
+  .metalGrid {
+    grid-template-columns: 1fr; /* stack metal cards */
+    gap: 12px;
+  }
+
+  .metalCard { padding: 20px; }
+
+  .metalPriceValue { font-size: 32px; }
+
+  .metalPriceUnit { font-size: 16px; }
+
+  .metalMeta { gap: 16px; flex-wrap: wrap; }
+
+  .bottomGrid {
+    grid-template-columns: 1fr; /* forex stacks below unit table */
+    gap: 16px;
+  }
+
+  /* Reorder: unit table first, forex second */
+  .unitCard  { order: 1; }
+  .forexCard { order: 2; }
+
+  .unitHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .unitControls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .unitSelect { width: 100%; }
+
+  .unitTableLabel,
+  .unitTableValue { font-size: 14px; }
+
+  .forexPairLabel { font-size: 12px; }
+  .forexRate { font-size: 13px; }
+}
+
+/* ── Small mobile (max 480px) ────────────────────────── */
+@media (max-width: 480px) {
+  .metalPair { font-size: 18px; }
+
+  .metalPriceValue { font-size: 26px; }
+
+  .unitTableRow { padding: 12px 0; }
+
+  .forexRow { padding: 10px 0; }
+
+  .forexFlag {
+    width: 24px;
+    height: 24px;
+  }
+}

@@ -2,6 +2,7 @@
 // components/Nav.tsx
 // Uses global CSS classes from nav.css (imported in app/page.tsx)
 import Link from 'next/link';
+import { handleGiveZakat } from '@/lib/utils';
 import './nav.css'
 
 export default function Nav() {
@@ -17,7 +18,7 @@ export default function Nav() {
       </div>
 
       <div className="navRight">
-        <button className="navGiveBtn">
+        <button className="navGiveBtn" onClick={handleGiveZakat}>
           <span
             className="material-symbols-outlined"
             style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}
