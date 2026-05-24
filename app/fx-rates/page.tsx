@@ -3,11 +3,8 @@
 import { useState, useEffect, useMemo } from "react";
 import s from "./fxRates.module.css";
 import type { MarketSnapshot } from "@/lib/getMarketData";
+import { Currency, CURRENCY_SYMBOLS, CURRENCY_LABELS, FOREX_PAIRS, Metal } from "@/lib/definitions";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-type Metal   = "gold" | "silver";
-type Currency = "USD" | "GBP" | "EUR" | "SAR" | "AED" | "PKR" | "JPY";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -15,41 +12,8 @@ const TROY_OZ_TO_GRAM   = 31.1035;
 const GRAM_TO_TOLA      = 0.08573;
 const GRAM_TO_KG        = 0.001;
 
-const CURRENCY_LABELS: Record<Currency, string> = {
-  USD: "US Dollar",
-  GBP: "British Pound",
-  EUR: "Euro",
-  SAR: "Saudi Riyal",
-  AED: "UAE Dirham",
-  PKR: "Pakistani Rupee",
-  JPY: "Japanese Yen",
-};
 
-const CURRENCY_SYMBOLS: Record<Currency, string> = {
-  USD: "$",
-  GBP: "£",
-  EUR: "€",
-  SAR: "﷼",
-  AED: "د.إ",
-  PKR: "₨",
-  JPY: "¥",
-};
-
-const FOREX_PAIRS: {
-  base: Currency;
-  quote: Currency;
-  label: string;
-  flag: string;
-}[] = [
-  { base: "USD", quote: "EUR", label: "EURO",    flag: "EU" },
-  { base: "USD", quote: "GBP", label: "STERLING", flag: "GB" },
-  { base: "USD", quote: "JPY", label: "YEN",      flag: "JP" },
-  { base: "USD", quote: "PKR", label: "RUPEE",    flag: "PK" },
-  { base: "USD", quote: "SAR", label: "RIYAL",    flag: "SA" },
-  { base: "USD", quote: "AED", label: "DIRHAM",   flag: "AE" },
-];
-
-// ─── Skeleton ─────────────────────────────────────────────────────────────────
+// ─── Skeleton ────────────────────────────────────────────────────────────────
 
 function Skeleton({ width = "100%", height = "20px" }: { width?: string; height?: string }) {
   return <div className={s.skeleton} style={{ width, height }} />;
@@ -151,13 +115,24 @@ function ForexRow({
   exchangeRates: Record<Currency, number> | null;
   isLoading: boolean;
 }) {
-  const rate = useMemo(() => {
-    if (!exchangeRates) return null;
-    // API: exchangeRates[X] = how many X per 1 USD
-    // All pairs are USD/X, so the rate is always direct from the API
-    // e.g. USD/EUR: 0.86, USD/JPY: 149.85, USD/SAR: 3.75
-    return exchangeRates[pair.quote];
-  }, [exchangeRates, pair]);
+ const rate = useMemo(() => {
+  if (!exchangeRates) return null;
+
+  const raw = exchangeRates[pair.quote];
+
+  if (!raw || raw <= 0) return null;
+
+  // API format:
+  // 1 currency = X USD
+  //
+  // UI format:
+  // USD / currency
+  //
+  // therefore invert:
+  // USD/currency = 1 / raw
+
+  return 1 / raw;
+}, [exchangeRates, pair]);
 
   const fmt = (n: number) =>
     new Intl.NumberFormat("en-US", {

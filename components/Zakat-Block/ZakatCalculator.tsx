@@ -2,54 +2,11 @@
 
 import { useState, useMemo, useEffect } from "react";
 import s from "./zakat.module.css";
-
+import { Currency } from "@/lib/definitions";
 import type { MarketSnapshot } from "@/lib/getMarketData";
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-type Currency = "USD" | "GBP" | "SAR" | "AED" | "EUR" | "PKR";
-type Basis    = "gold" | "silver";
-
-interface Assets {
-  cashAndBank: number;
-  goldSilver:  number;
-  investments: number;
-  business:    number;
-  receivables: number;
-}
-
-interface Liabilities {
-  loans: number;
-  bills: number;
-  wages: number;
-}
-
-interface CalcResult {
-  totalAssets:      number;
-  totalLiabilities: number;
-  netAssets:        number;
-  nisabValue:       number;
-  isNisabMet:       boolean;
-  zakatDue:         number;
-  goldPerGram:      number;
-  silverPerGram:    number;
-}
+import { CURRENCY_SYMBOLS, Metal , Assets, Liabilities, CalcResult, CURRENCY_LABELS } from "@/lib/definitions";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-
-const CURRENCY_LABELS: Record<Currency, string> = {
-  USD: "USD - United States Dollar",
-  GBP: "GBP - British Pound",
-  SAR: "SAR - Saudi Riyal",
-  AED: "AED - UAE Dirham",
-  EUR: "EUR - Euro",
-  // JPY MISSING
-  PKR: "PKR - Pakistani Rupee",
-};
-
-const CURRENCY_SYMBOLS: Record<Currency, string> = {
-  USD: "$", GBP: "£", SAR: "﷼", AED: "د.إ", EUR: "€", PKR: "₨", 
-  // JPY MISSING
-};
 
 const GOLD_NISAB_GRAMS   = 87.48;
 const SILVER_NISAB_GRAMS = 612.36;
@@ -208,7 +165,7 @@ function SidebarSummary({
 export default function ZakatCalculator() {
   const [market, setMarket]           = useState<MarketSnapshot | null>(null);
   const [currency, setCurrency]       = useState<Currency>("USD");
-  const [basis, setBasis]             = useState<Basis>("gold");
+  const [basis, setBasis]             = useState<Metal>("gold");
   const [assets, setAssets]           = useState<Assets>(DEFAULT_ASSETS);
   const [liabilities, setLiabilities] = useState<Liabilities>(DEFAULT_LIABILITIES);
 
@@ -295,11 +252,11 @@ export default function ZakatCalculator() {
               </div>
             </div>
 
-            {/* Basis toggle */}
+            {/* Basis/Metal toggle */}
             <div>
               <label className={s.controlLabel}>Calculation Basis</label>
               <div className={s.basisToggle}>
-                {(["gold", "silver"] as Basis[]).map((b) => (
+                {(["gold", "silver"] as Metal[]).map((b) => (
                   <button
                     key={b}
                     onClick={() => setBasis(b)}
