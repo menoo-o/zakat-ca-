@@ -41,8 +41,8 @@ const FOREX_PAIRS: {
   label: string;
   flag: string;
 }[] = [
-  { base: "EUR", quote: "USD", label: "EURO",    flag: "EU" },
-  { base: "GBP", quote: "USD", label: "STERLING", flag: "GB" },
+  { base: "USD", quote: "EUR", label: "EURO",    flag: "EU" },
+  { base: "USD", quote: "GBP", label: "STERLING", flag: "GB" },
   { base: "USD", quote: "JPY", label: "YEN",      flag: "JP" },
   { base: "USD", quote: "PKR", label: "RUPEE",    flag: "PK" },
   { base: "USD", quote: "SAR", label: "RIYAL",    flag: "SA" },
@@ -153,17 +153,10 @@ function ForexRow({
 }) {
   const rate = useMemo(() => {
     if (!exchangeRates) return null;
-    // All rates are stored as USD per unit (inverse of exchange rate from API)
-    // API stores how many foreign units = 1 USD
-    // e.g. exchangeRates.EUR = 0.92 means 1 USD = 0.92 EUR
-    // So EUR/USD = 1 / exchangeRates.EUR
-    if (pair.base === "USD") {
-      // USD/JPY, USD/PKR, etc. — direct rate
-      return exchangeRates[pair.quote];
-    } else {
-      // EUR/USD, GBP/USD — inverse
-      return 1 / exchangeRates[pair.base];
-    }
+    // API: exchangeRates[X] = how many X per 1 USD
+    // All pairs are USD/X, so the rate is always direct from the API
+    // e.g. USD/EUR: 0.86, USD/JPY: 149.85, USD/SAR: 3.75
+    return exchangeRates[pair.quote];
   }, [exchangeRates, pair]);
 
   const fmt = (n: number) =>
@@ -172,10 +165,10 @@ function ForexRow({
       maximumFractionDigits: 4,
     }).format(n);
 
-  // Simulated 24h change (static placeholder — real impl would compare cached snapshots)
+  // Static placeholder — real impl would compare cached snapshots - why not just use API's 24h change? Because that would be based on USD, not the pair directly. For example, EUR/USD might be up 0.5% while USD/JPY is down 0.2%, but both would show the same 24h change if we just look at USD. To get accurate pair-specific changes, we'd need to compare the current rate to a cached rate from 24h ago for that specific pair. For now, we'll hardcode some plausible changes for demonstration.
   const PLACEHOLDER_CHANGES: Record<string, number> = {
-    "EUR/USD": 0.12,
-    "GBP/USD": -0.05,
+    "USD/EUR": 0.12,
+    "USD/GBP": -0.05,
     "USD/JPY": 0.34,
     "USD/PKR": 0.0,
     "USD/SAR": 0.0,
@@ -238,9 +231,12 @@ function UnitComparison({
     if (!market) return 0;
     const { rates, exchangeRates } = market;
     const base = metal === "gold" ? rates.goldPricePerGram : rates.silverPricePerGram;
-    const fxRate = exchangeRates[currency] > 0 ? 1 / exchangeRates[currency] : 1;
-    // USD is already the base; for others multiply
-    return currency === "USD" ? base : base * fxRate;
+    // API stores exchangeRates[X] as "USD per 1 unit of X" (e.g. SAR: 0.2667)
+    // To convert gold/silver USD price → foreign currency: divide by the rate
+    // e.g. base / 0.2667 = base * 3.75 (SAR per gram)
+    const raw = exchangeRates[currency];
+    const fxRate = raw > 0 ? 1 / raw : 1;
+    return base * fxRate;
   }, [market, metal, currency]);
 
   const symbol = CURRENCY_SYMBOLS[currency];
@@ -329,6 +325,7 @@ export default function FxRates() {
   const isLoading = !market;
 
   useEffect(() => {
+    //give metals data and fx rates data
     fetch("/api/metal-data")
       .then((res) => res.json())
       .then((data) => {
@@ -373,6 +370,7 @@ export default function FxRates() {
           <span className={s.forexCardTitle}>FOREX CORE PAIRS</span>
           <div className={s.forexList}>
             {FOREX_PAIRS.map((pair) => (
+
               <ForexRow
                 key={`${pair.base}/${pair.quote}`}
                 pair={pair}
