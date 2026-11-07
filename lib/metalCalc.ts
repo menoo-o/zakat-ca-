@@ -21,6 +21,15 @@ export const UNIT_LABELS: Record<WeightUnit, string> = {
   kg: "Kilogram (kg)",
 };
 
+// 
+export const ZAKAT_RATE = 0.025;
+
+/** 2.5% of the entered weight, in the selected unit and in grams */
+export const zakatWeight = (weight: number, unit: WeightUnit) => {
+  const inUnit = weight * ZAKAT_RATE;
+  return { inUnit, grams: inUnit * GRAMS_PER_UNIT[unit] };
+};
+
 // ─── Purity (fraction of pure metal) ─────────────────────
 
 export const PURITY: Record<Metal, { label: string; value: number }[]> = {

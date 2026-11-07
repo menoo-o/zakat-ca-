@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import s from "./zakat.module.css";
 import type { Metal } from "@/lib/definitions";
-import { PURITY, UNIT_LABELS, UNIT_ORDER, WeightUnit, metalValue } from "@/lib/metalCalc";
+import { PURITY, UNIT_LABELS, UNIT_ORDER, WeightUnit, metalValue, zakatWeight } from "@/lib/metalCalc";
 
 type Row = { weight: string; unit: WeightUnit; purity: number };
 
@@ -18,6 +18,11 @@ const METALS: Metal[] = ["gold", "silver"];
 const fmt = (n: number) =>
   new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
 
+const fmtW = (n: number) =>
+  new Intl.NumberFormat("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(n);
+
+const UNIT_SHORT: Record<WeightUnit, string> = { gram: "g", oz: "oz", tola: "tola", kg: "kg" };
+
 export default function MetalsCalculator({ goldPerGram, silverPerGram, symbol, onChange }: Props) {
   const [rows, setRows] = useState<Record<Metal, Row>>({
     gold:   { weight: "", unit: "gram", purity: PURITY.gold[0].value },
@@ -30,6 +35,11 @@ export default function MetalsCalculator({ goldPerGram, silverPerGram, symbol, o
     metalValue(parseFloat(rows[m].weight) || 0, rows[m].unit, rows[m].purity, price[m]);
 
   const total = value("gold") + value("silver");
+
+  const zakat: Record<Metal, { inUnit: number; grams: number }> = {
+  gold:   zakatWeight(parseFloat(rows.gold.weight)   || 0, rows.gold.unit),
+  silver: zakatWeight(parseFloat(rows.silver.weight) || 0, rows.silver.unit),
+};
 
   useEffect(() => { onChange(total); }, [total, onChange]);
 
@@ -50,7 +60,13 @@ export default function MetalsCalculator({ goldPerGram, silverPerGram, symbol, o
               <span className={`${s.metalsTag} ${m === "gold" ? s.metalsTagGold : s.metalsTagSilver}`}>
                 {m}
               </span>
-              <span className={s.metalsValue}>{symbol}{fmt(value(m))}</span>
+             <div className={s.metalsResult}>
+            <span className={s.metalsValue}>{symbol}{fmt(value(m))}</span>
+              <span className={s.metalsZakat}>
+                Zakat (2.5%): {fmtW(zakat[m].inUnit)} {UNIT_SHORT[rows[m].unit]}
+                {rows[m].unit !== "gram" && ` (${fmtW(zakat[m].grams)} g)`}
+              </span>
+            </div>
             </div>
 
             <div className={s.metalsFields}>
