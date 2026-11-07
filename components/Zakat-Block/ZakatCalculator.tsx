@@ -1,11 +1,17 @@
+// ─── Zakat Calculator Component ─────────────────────────────────────────────
+
+// my-app/components/Zakat-Block/ZakatCalculator.tsx
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback  } from "react";
 import s from "./zakat.module.css";
 import { Currency } from "@/lib/definitions";
 import type { MarketSnapshot } from "@/lib/getMarketData";
 import { CURRENCY_SYMBOLS, Metal , Assets, Liabilities, CalcResult, CURRENCY_LABELS } from "@/lib/definitions";
 import { handleGiveZakat } from "@/lib/utils";
+import MetalsCalculator from "./MetalsCalculator";
+import { usdToCurrency } from "@/lib/metalCalc";
+
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -165,14 +171,15 @@ function SidebarSummary({
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
+
 export default function ZakatCalculator() {
   const [market, setMarket]           = useState<MarketSnapshot | null>(null);
   const [currency, setCurrency]       = useState<Currency>("USD");
   const [basis, setBasis]             = useState<Metal>("gold");
   const [assets, setAssets]           = useState<Assets>(DEFAULT_ASSETS);
   const [liabilities, setLiabilities] = useState<Liabilities>(DEFAULT_LIABILITIES);
+  const [resetKey, setResetKey]       = useState(0); // NEW
 
-  // Fetch via API route — never call Redis from the client
   useEffect(() => {
     fetch("/api/metal-data")
       .then((res) => res.json())
@@ -180,14 +187,21 @@ export default function ZakatCalculator() {
       .catch((err) => console.error("Failed to load market data:", err));
   }, []);
 
-  // Calculation — returns null until market loads; form still renders immediately
+  // NEW: per-gram prices in the selected currency
+  const prices = useMemo(() => {
+    if (!market) return { goldPerGram: 0, silverPerGram: 0 };
+    const fx = market.exchangeRates as unknown as Record<string, number>;
+    return {
+      goldPerGram:   usdToCurrency(market.rates.goldPricePerGram,   currency, fx),
+      silverPerGram: usdToCurrency(market.rates.silverPricePerGram, currency, fx),
+    };
+  }, [market, currency]);
+
+  // CHANGED: uses `prices`
   const calc = useMemo<CalcResult | null>(() => {
     if (!market) return null;
-    const { rates, exchangeRates } = market;
-    const fxRate        = exchangeRates[currency] > 0 ? 1 / exchangeRates[currency] : 1;
-    const goldPerGram   = rates.goldPricePerGram   * fxRate;
-    const silverPerGram = rates.silverPricePerGram * fxRate;
-    const nisabValue    = basis === "gold"
+    const { goldPerGram, silverPerGram } = prices;
+    const nisabValue = basis === "gold"
       ? GOLD_NISAB_GRAMS   * goldPerGram
       : SILVER_NISAB_GRAMS * silverPerGram;
     const totalAssets      = assets.cashAndBank + assets.goldSilver + assets.investments + assets.business + assets.receivables;
@@ -196,7 +210,7 @@ export default function ZakatCalculator() {
     const isNisabMet       = netAssets >= nisabValue;
     const zakatDue         = isNisabMet ? netAssets * 0.025 : 0;
     return { totalAssets, totalLiabilities, netAssets, nisabValue, isNisabMet, zakatDue, goldPerGram, silverPerGram };
-  }, [market, currency, basis, assets, liabilities]);
+  }, [market, prices, basis, assets, liabilities]);
 
   const symbol = CURRENCY_SYMBOLS[currency];
   const fmt    = (n: number) => new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
@@ -204,18 +218,23 @@ export default function ZakatCalculator() {
   const setAsset     = (k: keyof Assets)      => (v: number) => setAssets((p)       => ({ ...p, [k]: v }));
   const setLiability = (k: keyof Liabilities) => (v: number) => setLiabilities((p) => ({ ...p, [k]: v }));
 
+  // NEW: must be stable, or MetalsCalculator's effect re-fires every render
+  const handleMetals = useCallback(
+    (v: number) => setAssets((p) => ({ ...p, goldSilver: v })),
+    []
+  );
+
   const handleReset = () => {
     setAssets(DEFAULT_ASSETS);
     setLiabilities(DEFAULT_LIABILITIES);
     setCurrency("USD");
     setBasis("gold");
+    setResetKey((k) => k + 1); // NEW
   };
 
-  // No top-level loading guard — page renders immediately
   return (
     <main id="calculator" className={s.calculator}>
 
-      {/* ══ LEFT COLUMN — always interactive ══ */}
       <div className={s.leftColumn}>
 
         {/* 1. Setup */}
@@ -235,8 +254,6 @@ export default function ZakatCalculator() {
           </div>
 
           <div className={s.setupGrid}>
-
-            {/* Currency */}
             <div>
               <label className={s.controlLabel}>Currency</label>
               <div className={s.selectWrapper}>
@@ -255,7 +272,6 @@ export default function ZakatCalculator() {
               </div>
             </div>
 
-            {/* Basis/Metal toggle */}
             <div>
               <label className={s.controlLabel}>Calculation Basis</label>
               <div className={s.basisToggle}>
@@ -271,7 +287,6 @@ export default function ZakatCalculator() {
               </div>
             </div>
 
-            {/* Live Nisab — skeleton until calc is ready */}
             <div>
               <label className={s.controlLabel}>Live Nisab Rate</label>
               <div className={s.nisabDisplay}>
@@ -285,18 +300,27 @@ export default function ZakatCalculator() {
                 )}
               </div>
             </div>
-
           </div>
         </section>
 
         {/* 2. Assets */}
         <section className={s.section}>
           <h2 className={`${s.sectionTitle} ${s.sectionTitleSpaced}`}>2. Assets</h2>
-          <InputRow icon="savings"           label="Cash on Hand & Bank Accounts"     symbol={symbol} value={assets.cashAndBank}  onChange={setAsset("cashAndBank")} />
-          <InputRow icon="monetization_on"   label="Gold & Silver (Market Value)"     symbol={symbol} value={assets.goldSilver}   onChange={setAsset("goldSilver")} />
-          <InputRow icon="trending_up"       label="Investments, Stocks & Shares"     symbol={symbol} value={assets.investments}  onChange={setAsset("investments")} />
-          <InputRow icon="business_center"   label="Business Assets (Stock for Sale)" symbol={symbol} value={assets.business}     onChange={setAsset("business")} />
-          <InputRow icon="real_estate_agent" label="Money Owed to You (Receivables)"  symbol={symbol} value={assets.receivables}  onChange={setAsset("receivables")} />
+
+          <InputRow icon="savings" label="Cash on Hand & Bank Accounts" symbol={symbol} value={assets.cashAndBank} onChange={setAsset("cashAndBank")} />
+
+          {/* CHANGED: replaces the manual Gold & Silver InputRow, now INSIDE the section */}
+          <MetalsCalculator
+            key={resetKey}
+            goldPerGram={prices.goldPerGram}
+            silverPerGram={prices.silverPerGram}
+            symbol={symbol}
+            onChange={handleMetals}
+          />
+
+          <InputRow icon="trending_up"       label="Investments, Stocks & Shares"     symbol={symbol} value={assets.investments} onChange={setAsset("investments")} />
+          <InputRow icon="business_center"   label="Business Assets (Stock for Sale)" symbol={symbol} value={assets.business}    onChange={setAsset("business")} />
+          <InputRow icon="real_estate_agent" label="Money Owed to You (Receivables)"  symbol={symbol} value={assets.receivables} onChange={setAsset("receivables")} />
         </section>
 
         {/* 3. Liabilities */}
@@ -309,7 +333,6 @@ export default function ZakatCalculator() {
 
       </div>
 
-      {/* ══ RIGHT COLUMN — SidebarSummary owns its loading state ══ */}
       <aside>
         <SidebarSummary
           calc={calc}

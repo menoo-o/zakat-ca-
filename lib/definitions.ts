@@ -1,4 +1,6 @@
 
+// definitions.ts
+
 export type Currency = "USD" | "GBP" | "JPY" | "SAR" | "AED" | "EUR" | "PKR";
 
 export const CURRENCY_LABELS: Record<Currency, string> = {
